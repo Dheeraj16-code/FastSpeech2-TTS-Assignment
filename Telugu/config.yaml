@@ -1,0 +1,55 @@
+dataset: "IndicTTS"
+language: "te"
+path:
+  corpus_path: "./data/IndicTTS"
+  preprocessing_path: "./data/IndicTTS/preprocessed"
+  checkpoint_path: "./Telugu/checkpoints"
+  log_path: "./Telugu/log"
+  result_path: "./Results/Telugu"
+
+preprocessing:
+  audio:
+  - sample_rate: 22050
+  - max_wav_value: 32768.0
+  - n_fft: 1024
+  - hop_length: 256
+  - win_length: 1024
+  stft:
+    fft_size: 1024
+    hop_size: 256
+    win_length: 1024
+  text:
+    text_cleaners: ["telugu_cleaners"]
+
+model:
+  transformer:
+    encoder_layer: 4
+    encoder_head: 2
+    encoder_hidden: 256
+    decoder_layer: 4
+    decoder_head: 2
+    decoder_hidden: 256
+    conv_filter_size: 1024
+    conv_kernel_size: [9, 1]
+    encoder_dropout: 0.2
+    decoder_dropout: 0.2
+  variance_adaptor:
+    duration_predictor_filter_size: 256
+    duration_predictor_kernel_size: 3
+    p_dropout: 0.5
+    pitch_predictor_filter_size: 256
+    pitch_predictor_kernel_size: 3
+    pitch_dropout: 0.5
+    energy_predictor_filter_size: 256
+    energy_predictor_kernel_size: 3
+    energy_dropout: 0.5
+
+train:
+  batch_size: 16
+  epochs: 100
+  save_step: 10
+  eval_step: 5
+  log_step: 1
+  optimizer:
+    learning_rate: 0.001
+    weight_decay: 0.0
